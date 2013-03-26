@@ -18,6 +18,19 @@ module.exports = function(grunt) {
             distDirectory : "dist"
         },
 
+        clean: {
+            dist: ["<%= settings.distDirectory %>"]
+        },
+
+        copy: {
+            prebuild: {
+                files: [
+                    {expand: true, cwd: '<%= settings.appDirectory %>', src: ['index.html'], dest: '<%= settings.distDirectory %>'}
+                    //{expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
+                ]
+            }
+        },
+
         concat: {
             options: {
                 separator: ';'
@@ -145,10 +158,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-usemin-baked');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
     grunt.registerTask('test', ['jshint','livereload-start','connect:test','regarde:test']);
 
-    grunt.registerTask('build',['useminPrepare','requirejs','usemin']);
+    grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','usemin']);
 
 };
