@@ -14,7 +14,8 @@ module.exports = function(grunt) {
         
         settings : {
             appDirectory : "app",
-            testDirectory : "test"
+            testDirectory : "test",
+            distDirectory : "dist"
         },
 
         concat: {
@@ -23,7 +24,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: ['<%= settings.appDirectory %>/src/**/*.js'],
-                dest: 'dist/<%= pkg.name %>.js'
+                dest: '<%= settings.distDirectory %>/<%= pkg.name %>.js'
             }
         },
 
@@ -34,7 +35,7 @@ module.exports = function(grunt) {
 
             dist: {
                 files: {
-                    'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                    '<%= settings.distDirectory %>/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
                 }
             }
         },
@@ -64,9 +65,8 @@ module.exports = function(grunt) {
                 options: {
                     name: 'vendor/almond',
                     include: ['main'],
-                    baseUrl: "scripts",
-                    mainConfigFile: "<%= settings.appDirectory %>/scripts/main.js",
-                    out: "dist/scripts/app.compiled.js"
+                    baseUrl: "<%= settings.appDirectory %>/scripts",
+                    mainConfigFile: "<%= settings.appDirectory %>/scripts/main.js"
                 }
             }
         },
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
             dist: {   
                 options: {
                     sassDir: '<%= settings.appDirectory %>/styles',
-                    cssDir: 'dist/styles',
+                    cssDir: '<%= settings.distDirectory %>/styles',
                     environment: 'production',
                     force:true
                 }
@@ -121,6 +121,18 @@ module.exports = function(grunt) {
                 files: ['<%= settings.appDirectory %>/scripts/**/*.js', '<%= settings.testDirectory %>/spec/**/*.js', '<%= settings.testDirectory %>/index.html'],
                 tasks: ['jshint','livereload']  
             }
+        },
+
+        'useminPrepare': {
+            html: '<%= settings.distDirectory %>/index.html'
+        },
+
+        usemin: {
+            html: ['<%= settings.distDirectory %>/*.html'],
+            css: ['<%= settings.appDirectory %>/styles/*.css'],
+            options: {
+                dirs: ['<%= settings.distDirectory %>']
+            }
         }  
     });
 
@@ -132,7 +144,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-contrib-livereload');
+    grunt.loadNpmTasks('grunt-usemin-baked');
 
     grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
     grunt.registerTask('test', ['jshint','livereload-start','connect:test','regarde:test']);
+
+    grunt.registerTask('build',['useminPrepare','requirejs','usemin']);
+
 };
