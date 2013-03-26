@@ -1,10 +1,10 @@
-Bootstrap your project project
+Bootstrap your project
 =======
 
 ```
 npm install
 cd test
-ln -s ../app/scripts test/scripts
+ln -s ../app/scripts scripts
 ```
 
 Run the app (http://localhost:9001)
