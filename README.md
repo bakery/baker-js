@@ -22,6 +22,12 @@ Test (http://localhost:9001)
 grunt test
 ```
 
+Build ()
+======
+```
+grunt build
+```
+
 Dependencies
 =======
 [Grunt.js 0.4+](http://gruntjs.com/)
