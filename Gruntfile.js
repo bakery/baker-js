@@ -1,5 +1,6 @@
 var path = require('path');
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+var modRewrite = require('connect-modrewrite');
 
 var folderMount = function folderMount(connect, point) {
   return connect.static(path.resolve(point));
@@ -108,7 +109,12 @@ module.exports = function(grunt) {
                     port: 9001,
                     base:'<%= settings.appDirectory %>/',
                     middleware: function(connect, options) {
-                        return [lrSnippet, folderMount(connect, options.base)];
+                        return [
+                            modRewrite([
+                                '^/test /index.html'
+                            ]),
+                            lrSnippet, folderMount(connect, options.base)
+                        ];
                     }
                 }
             },
