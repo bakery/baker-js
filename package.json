@@ -17,6 +17,7 @@
     "grunt-usemin-baked": "~0.1.10",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-copy": "~0.4.1",
-    "connect-modrewrite": "~0.2.3"
+    "connect-modrewrite": "~0.2.3",
+    "grunt-rev": "~0.1.0"
   }
 }

@@ -85,6 +85,21 @@ module.exports = function(grunt) {
             }
         },
 
+        rev: {
+            options: {
+                algorithm: 'md5',
+                length: 8
+            },
+            assets: {
+                files: [{
+                    src: [
+                        'dist/**/*.js',
+                        'dist/**/*.css'
+                    ]
+                }]
+            }
+        },
+
         compass: {    
             dist: {   
                 options: {
@@ -166,10 +181,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-usemin-baked');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-rev');
 
     grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
     grunt.registerTask('test', ['jshint','livereload-start','connect:test','regarde:test']);
 
-    grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','usemin']);
+    grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
 
 };
