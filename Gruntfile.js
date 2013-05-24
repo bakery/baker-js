@@ -167,6 +167,12 @@ module.exports = function(grunt) {
             options: {
                 dirs: ['<%= settings.distDirectory %>']
             }
+        },
+
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
+            }
         }  
     });
 
@@ -182,9 +188,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-rev');
+    grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
-    grunt.registerTask('test', ['jshint','livereload-start','connect:test','regarde:test']);
+    grunt.registerTask('test', ['jshint','karma']);
 
     grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
 
