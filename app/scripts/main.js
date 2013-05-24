@@ -8,8 +8,10 @@ function testing(){
     return typeof window.__karma__ !== 'undefined'; 
 }
 
-var requireConfig =  {
-    
+
+require.config({
+    baseUrl : "scripts/",
+ 
     shim: {
         'underscore' : {exports: '_' },
         'backbone' : {exports: 'Backbone', deps: ['underscore']},
@@ -26,23 +28,13 @@ var requireConfig =  {
         handlebars : 'vendor/handlebars',
         templates: '../templates'
     }
+});
 
-};
-
-if (!testing()) {
-
-    requireConfig.baseUrl = "scripts/";
-    
-    require.config(requireConfig);
-
-    require(['jquery','app'], function($,Application) {
+if (!testing()){
+    require(['app'], function(Application) {
         Application.run();
     });
-
 } else {
-
-    requireConfig.baseUrl = "/base/app/scripts";
-
     var tests = [];
     for (var file in window.__karma__.files) {
         if (/specs\/.*\.js$/.test(file)) {
@@ -50,10 +42,11 @@ if (!testing()) {
         }
     }
 
-    // ask Require.js to load these files (all our tests)
-    requireConfig.deps = tests;
-    // start test run, once Require.js is done
-    requireConfig.callback = window.__karma__.start;
-
-    require.config(requireConfig);
+    require.config({
+        baseUrl : "/base/app/scripts",
+        // ask Require.js to load these files (all our tests)
+        deps : tests,
+        // start test run, once Require.js is done
+        callback : window.__karma__.start
+    });
 }
