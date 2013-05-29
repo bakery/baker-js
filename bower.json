@@ -1,0 +1,15 @@
+{
+  "name": "baker",
+  "version": "0.1",
+  "main": ["Gruntfile.js"],
+  "dependencies": {
+    "almond": "~0.2.5",
+    "backbone": "~0.9.9",
+    "handlebars": "~1.0",
+    "jquery": "~1.8.0",
+    "json2": "",
+    "requirejs": "~2.0.5",
+    "requirejs-text": "~2.0.3",
+    "underscore": "~1.4.2"
+  }
+}
