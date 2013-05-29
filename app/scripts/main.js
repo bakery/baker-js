@@ -20,12 +20,12 @@ require.config({
     },
 
     paths: {
-        jquery: 'vendor/jquery.min',
-        underscore: 'vendor/underscore',
-        backbone: 'vendor/backbone',
-        text : 'vendor/text',
-        json : 'vendor/json2',
-        handlebars : 'vendor/handlebars',
+        jquery: 'vendor/jquery/jquery',
+        underscore: 'vendor/underscore/underscore',
+        backbone: 'vendor/backbone/backbone',
+        text : 'vendor/requirejs-text/text',
+        json : 'vendor/json2/json2',
+        handlebars : 'vendor/handlebars/handlebars',
         templates: '../templates'
     }
 });
