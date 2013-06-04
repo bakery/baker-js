@@ -12,10 +12,10 @@
 
 ###Bootstrap your project
 
-Make sure you have [Grunt.js 0.4+](http://gruntjs.com/) installed. If you don't, go 
+Baker needs [Grunt.js 0.4+](http://gruntjs.com/) and [Bower](http://bower.io/)
 
 ```
-npm install -g grunt-cli
+npm install -g grunt-cli bower 
 ```
 
 Baker uses [Bower](http://bower.io/) to keep third party libraries organized within the project. All the vendor dependencies are listed in bower.json. To get all the required libraries for the project, use the init task

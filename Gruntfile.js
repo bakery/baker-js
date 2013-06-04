@@ -173,6 +173,15 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'karma.conf.js'
             }
+        },
+
+        shell: {
+            bower: {
+                command: 'bower install',
+                options: {
+                    stdout: true
+                }
+            }
         } 
     });
 
@@ -189,25 +198,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-rev');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('bower', 'Install js packages listed in bower.json', function() {
-        var bower = require('bower');
-        var done = this.async();
-        
-        bower.commands.install()
-            .on('data', function(data){
-                grunt.log.write(data);
-            })
-            .on('error', function(data){
-                grunt.log.write(data);
-                done(false);
-            })
-            .on('end', function (data) {
-                done();
-            });
-    });
-
-    grunt.registerTask('init', ['bower']);
+    grunt.registerTask('init', ['shell:bower']);
     grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
     grunt.registerTask('test', ['jshint','karma']);
 
