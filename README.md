@@ -18,11 +18,23 @@ Baker needs [Grunt.js 0.4+](http://gruntjs.com/) and [Bower](http://bower.io/)
 npm install -g grunt-cli bower 
 ```
 
+Note: you might need to sudo this command
+
+To install development dependencies for the Baker, do the following
+
+```
+npm install 
+```
+
+Note: you might need to sudo this command
+
 Baker uses [Bower](http://bower.io/) to keep third party libraries organized within the project. All the vendor dependencies are listed in bower.json. To get all the required libraries for the project, use the init task
 
 ```
 grunt init
 ```  
+
+Note: you might need to sudo this command
 
 This will download and install all the js goodness to app/scripts/vendor
 
