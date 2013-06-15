@@ -179,7 +179,8 @@ module.exports = function(grunt) {
             bower: {
                 command: 'bower install',
                 options: {
-                    stdout: true
+                    stdout: true,
+                    stderr: true
                 }
             }
         } 
