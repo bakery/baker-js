@@ -197,7 +197,7 @@ module.exports = function(grunt) {
         if(filepath.match(/\.js$/)){
             grunt.task.run('jshint');
         } else if(filepath.match(/\.scss$/)){
-            grunt.task.run('compass');
+            grunt.task.run('compass:dev');
         }
     });
 
