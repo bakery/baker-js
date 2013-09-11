@@ -128,7 +128,7 @@ module.exports = function(grunt) {
                             modRewrite([
                                 '^/test /index.html'
                             ]),
-                            lrSnippet, folderMount(connect, options.base)
+                            lrSnippet,folderMount(connect, options.base)
                         ];
                     }
                 }
@@ -145,17 +145,23 @@ module.exports = function(grunt) {
             }
         },
 
-        regarde: {
-            server : {
-                files: ['<%= settings.appDirectory %>/styles/*.scss', '<%= settings.appDirectory %>/scripts/**/*.js'],
-                tasks: ['jshint','compass','livereload']
-            },
-
-            test : {
-                files: ['<%= settings.appDirectory %>/scripts/**/*.js', '<%= settings.testDirectory %>/spec/**/*.js', '<%= settings.testDirectory %>/index.html'],
-                tasks: ['jshint','livereload']
+        watch: {
+            stuff: {
+                files: [
+                    '<%= settings.appDirectory %>/scripts/**/*.js',
+                    '!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
+                    '<%= settings.testDirectory %>/specs/**/*.js',
+                    '<%= settings.appDirectory %>/styles/*.scss',
+                    '<%= settings.appDirectory %>/**/*.html',
+                    '<%= settings.testDirectory %>/**/*.html'
+                ],
+                options: {
+                    spawn: false,
+                    livereload: true
+                }
             }
         },
+
 
         'useminPrepare': {
             html: '<%= settings.distDirectory %>/index.html'
@@ -186,13 +192,22 @@ module.exports = function(grunt) {
         }
     });
 
+
+    grunt.event.on('watch', function(action, filepath) {
+        if(filepath.match(/\.js$/)){
+            grunt.task.run('jshint');
+        } else if(filepath.match(/\.scss$/)){
+            grunt.task.run('compass');
+        }
+    });
+
+
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-usemin-baked');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -200,10 +215,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-rev');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('init', ['shell:bower']);
-    grunt.registerTask('default', ['jshint','compass','livereload-start', 'connect:server', 'regarde:server']);
-    grunt.registerTask('test', ['jshint','karma']);
+    grunt.registerTask('default', ['jshint','compass', 'connect:server', 'watch:stuff']);
+    grunt.registerTask('test', ['jshint','karma','watch:stuff']);
 
     grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
 
