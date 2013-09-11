@@ -2,24 +2,27 @@ var path = require('path');
 var modRewrite = require('connect-modrewrite');
 
 var folderMount = function folderMount(connect, point) {
-  return connect.static(path.resolve(point));
+    'use strict';
+    return connect.static(path.resolve(point));
 };
 
 
 module.exports = function(grunt) {
+
+    'use strict';
 
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
 
         settings : {
-            appDirectory : "app",
-            testDirectory : "test",
-            distDirectory : "dist"
+            appDirectory : 'app',
+            testDirectory : 'test',
+            distDirectory : 'dist'
         },
 
         clean: {
-            dist: ["<%= settings.distDirectory %>"]
+            dist: ['<%= settings.distDirectory %>']
         },
 
         copy: {
@@ -63,12 +66,8 @@ module.exports = function(grunt) {
                 ]
             },
             options: {
-                globals: {
-                    jQuery: true,
-                    console: true,
-                    module: true,
-                    document: true
-                }
+                force: true,
+                jshintrc: '.jshintrc'
             }
         },
 
@@ -77,8 +76,8 @@ module.exports = function(grunt) {
                 options: {
                     name: 'vendor/almond/almond',
                     include: ['main'],
-                    baseUrl: "<%= settings.appDirectory %>/scripts",
-                    mainConfigFile: "<%= settings.appDirectory %>/scripts/main.js"
+                    baseUrl: '<%= settings.appDirectory %>/scripts',
+                    mainConfigFile: '<%= settings.appDirectory %>/scripts/main.js'
                 }
             }
         },
@@ -153,7 +152,7 @@ module.exports = function(grunt) {
                     '<%= settings.appDirectory %>/**/*.html',
                     '<%= settings.testDirectory %>/**/*.html'
                 ],
-                tasks : "empty",
+                tasks : 'empty',
                 options: {
                     spawn: false,
                     livereload: true
