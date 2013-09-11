@@ -1,3 +1,5 @@
+/* jshint camelcase: false */
+
 /*
     Require setup + entry point for the application
     This hybrid setup allows us to use 1 single config file across
@@ -5,17 +7,18 @@
 */
 
 function testing(){
-    return typeof window.__karma__ !== 'undefined'; 
+    'use strict';
+    return typeof window.__karma__ !== 'undefined';
 }
 
 
 require.config({
-    baseUrl : "scripts/",
+    baseUrl : 'scripts/',
  
     shim: {
         'underscore' : {exports: '_' },
         'backbone' : {exports: 'Backbone', deps: ['underscore']},
-        "marionette" : {exports: 'Marionette', deps: ['backbone']},
+        'marionette' : {exports: 'Marionette', deps: ['backbone']},
         'json' : {exports: 'JSON'},
         'handlebars' :  {exports: 'Handlebars'}
     },
@@ -34,6 +37,8 @@ require.config({
 
 if (!testing()){
     require(['jquery','app'], function($,Application) {
+        'use strict';
+
         $(function(){
             Application.start();
         });
@@ -47,7 +52,7 @@ if (!testing()){
     }
 
     require.config({
-        baseUrl : "/base/app/scripts",
+        baseUrl : '/base/app/scripts',
         // ask Require.js to load these files (all our tests)
         deps : tests,
         // start test run, once Require.js is done
