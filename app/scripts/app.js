@@ -1,11 +1,10 @@
-define(["jquery"],function($){
+define(["marionette","tools/marionette.override"],function(Marionette){
 
-    return {
-        run : function(){
-            $(document).ready(function(){
-                alert("baker is in the house");    
-            });
-        }
-    };
+    var application = new Marionette.Application();
 
+    application.on('initialize:after', function() {
+        alert("baker is in the house");
+    });
+
+    return application;
 });

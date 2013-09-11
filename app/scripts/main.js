@@ -15,6 +15,7 @@ require.config({
     shim: {
         'underscore' : {exports: '_' },
         'backbone' : {exports: 'Backbone', deps: ['underscore']},
+        "marionette" : {exports: 'Marionette', deps: ['backbone']},
         'json' : {exports: 'JSON'},
         'handlebars' :  {exports: 'Handlebars'}
     },
@@ -23,6 +24,7 @@ require.config({
         jquery: 'vendor/jquery/jquery',
         underscore: 'vendor/underscore/underscore',
         backbone: 'vendor/backbone/backbone',
+        marionette : 'vendor/backbone.marionette/lib/backbone.marionette',
         text : 'vendor/requirejs-text/text',
         json : 'vendor/json2/json2',
         handlebars : 'vendor/handlebars/handlebars',
@@ -31,8 +33,10 @@ require.config({
 });
 
 if (!testing()){
-    require(['app'], function(Application) {
-        Application.run();
+    require(['jquery','app'], function($,Application) {
+        $(function(){
+            Application.start();
+        });
     });
 } else {
     var tests = [];
