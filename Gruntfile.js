@@ -60,9 +60,8 @@ module.exports = function(grunt) {
             files: {
                 src: [
                     'Gruntfile.js',
-                    '<%= settings.appDirectory %>/scripts/*.js',
-                    '<%= settings.appDirectory %>/scripts/models/**/*.js',
-                    '<%= settings.appDirectory %>/scripts/views/**/*.js'
+                    '<%= settings.appDirectory %>/scripts/**/*.js',
+                    '!<%= settings.appDirectory %>/scripts/vendor/**/*.js'
                 ]
             },
             options: {
