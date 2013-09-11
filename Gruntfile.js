@@ -145,7 +145,7 @@ module.exports = function(grunt) {
             stuff: {
                 files: [
                     '<%= settings.appDirectory %>/scripts/**/*.js',
-                    //'!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
+                    '!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
                     '<%= settings.testDirectory %>/specs/**/*.js',
                     '<%= settings.appDirectory %>/styles/*.scss',
                     '<%= settings.appDirectory %>/**/*.html',
