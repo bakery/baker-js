@@ -38,6 +38,8 @@ Note: you might need to sudo this command
 
 This will download and install all the js goodness to app/scripts/vendor
 
+Baker uses livereload to automatically update your site on code/style/content updates. To enable Livereload in your browser, grab [these extensions](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-)
+
 ###Run the app (http://localhost:9001)
 ```
 grunt 

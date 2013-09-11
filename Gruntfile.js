@@ -1,5 +1,4 @@
 var path = require('path');
-var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var modRewrite = require('connect-modrewrite');
 
 var folderMount = function folderMount(connect, point) {
@@ -64,7 +63,6 @@ module.exports = function(grunt) {
                 ]
             },
             options: {
-                // options here to override JSHint defaults
                 globals: {
                     jQuery: true,
                     console: true,
@@ -128,7 +126,7 @@ module.exports = function(grunt) {
                             modRewrite([
                                 '^/test /index.html'
                             ]),
-                            lrSnippet,folderMount(connect, options.base)
+                            folderMount(connect, options.base)
                         ];
                     }
                 }
@@ -139,7 +137,7 @@ module.exports = function(grunt) {
                     port: 9001,
                     base:'test/',
                     middleware: function(connect, options) {
-                        return [lrSnippet, folderMount(connect, options.base)];
+                        return [folderMount(connect, options.base)];
                     }
                 }
             }
@@ -149,12 +147,13 @@ module.exports = function(grunt) {
             stuff: {
                 files: [
                     '<%= settings.appDirectory %>/scripts/**/*.js',
-                    '!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
+                    //'!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
                     '<%= settings.testDirectory %>/specs/**/*.js',
                     '<%= settings.appDirectory %>/styles/*.scss',
                     '<%= settings.appDirectory %>/**/*.html',
                     '<%= settings.testDirectory %>/**/*.html'
                 ],
+                tasks : "empty",
                 options: {
                     spawn: false,
                     livereload: true
@@ -199,6 +198,9 @@ module.exports = function(grunt) {
         } else if(filepath.match(/\.scss$/)){
             grunt.task.run('compass:dev');
         }
+    });
+
+    grunt.registerTask('empty', 'An empty task that does nothing', function() {
     });
 
 
