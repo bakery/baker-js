@@ -41,7 +41,7 @@ if (!testing()){
         'use strict';
 
         $(function(){
-            console.log("settings", settings.exampleString);
+            console.log('settings', settings.exampleString);
             Application.start();
         });
     });

@@ -1,3 +1,5 @@
+/* jshint camelcase: false */
+
 var path = require('path');
 
 var folderMount = function folderMount(connect, point) {
@@ -40,35 +42,35 @@ module.exports = function(grunt) {
             prebuild: {
                 files: [
                     {
-                        expand: true, 
-                        cwd: '<%= settings.appDirectory %>', 
-                        src: ['index.html'], 
+                        expand: true,
+                        cwd: '<%= settings.appDirectory %>',
+                        src: ['index.html'],
                         dest: '<%= settings.distDirectory %>'
                     },
 
                     {
-                        expand: true, 
-                        cwd: '<%= settings.appDirectory %>/images', 
-                        src: ['**/**'], 
+                        expand: true,
+                        cwd: '<%= settings.appDirectory %>/images',
+                        src: ['**/**'],
                         dest: '<%= settings.distDirectory %>/images'
                     },
 
                     {
-                        expand: true, 
-                        cwd: '<%= settings.appDirectory %>/fonts', 
-                        src: ['**/**'], 
+                        expand: true,
+                        cwd: '<%= settings.appDirectory %>/fonts',
+                        src: ['**/**'],
                         dest: '<%= settings.distDirectory %>/fonts'
                     },
                     
                     {
-                        expand: true, 
-                        cwd: '<%= settings.appDirectory %>/scripts', 
+                        expand: true,
+                        cwd: '<%= settings.appDirectory %>/scripts',
                         src: [
                             '**',
                             '!<%= settings.stagingSettingsModule %>',
                             '!<%= settings.productionSettingsModule %>',
                             '!<%= settings.devSettingsModule %>'
-                        ], 
+                        ],
                         dest: '<%= settings.tempDirectory %>/scripts'
                     }
                 ]
@@ -79,12 +81,12 @@ module.exports = function(grunt) {
             */
 
             prodPrebuild: {
-                files: [       
-                    { 
-                        src: '<%= settings.appDirectory %>/scripts/<%= settings.productionSettingsModule %>', 
-                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'  
+                files: [
+                    {
+                        src: '<%= settings.appDirectory %>/scripts/<%= settings.productionSettingsModule %>',
+                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'
                     }
-                ]  
+                ]
             },
 
             /*
@@ -92,12 +94,12 @@ module.exports = function(grunt) {
             */
 
             stagePrebuild: {
-                files: [       
-                    { 
-                        src: '<%= settings.appDirectory %>/scripts/<%= settings.stagingSettingsModule %>', 
-                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'  
+                files: [
+                    {
+                        src: '<%= settings.appDirectory %>/scripts/<%= settings.stagingSettingsModule %>',
+                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'
                     }
-                ]  
+                ]
             }
         },
 
@@ -142,8 +144,8 @@ module.exports = function(grunt) {
                 options: {
                     name: 'vendor/almond/almond',
                     include: ['main'],
-                    baseUrl: "<%= settings.tempDirectory %>/scripts",
-                    mainConfigFile: "<%= settings.tempDirectory %>/scripts/main.js"
+                    baseUrl: '<%= settings.tempDirectory %>/scripts',
+                    mainConfigFile: '<%= settings.tempDirectory %>/scripts/main.js'
                 }
             }
         },
@@ -259,15 +261,15 @@ module.exports = function(grunt) {
         prompt: {
             // double check before deploying things to production
             deploy: {
-              options: {
-                questions: [
-                  {
-                    config: 'deploymentPassphrase', 
-                    type: 'input',
-                    message: 'You are about to deploy your app to production, broski. If you are sure, type "<%= settings.deploymentPassphrase %>"'
-                  }
-                ]
-              }
+                options: {
+                    questions: [
+                        {
+                            config: 'deploymentPassphrase',
+                            type: 'input',
+                            message: 'You are about to deploy your app to production, broski. If you are sure, type "<%= settings.deploymentPassphrase %>"'
+                        }
+                    ]
+                }
             }
         },
 
@@ -291,19 +293,23 @@ module.exports = function(grunt) {
                 files: [
                     // never cache index.html
                     {
-                        expand: true, cwd: 'dist/', src: ['index.html'], 
-                        params : { "CacheControl" : "no-cache"}
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['index.html'],
+                        params : { 'CacheControl' : 'no-cache'}
                     },
                     // cache everything else agressively 
-                    {   
-                        expand: true, cwd: 'dist/', src: ['**','!index.html'],
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['**','!index.html'],
                         params: {
                             //ContentEncoding: 'gzip',
-                            "CacheControl":"public, max-age=31152701",
-                            "Expires":new Date(2023,5,20)
+                            'CacheControl':'public, max-age=31152701',
+                            'Expires':new Date(2023,5,20)
                         }
                     }
-                ]         
+                ]
             },
 
             // production deploy to http://openmic.io.s3-website-us-east-1.amazonaws.com/
@@ -315,19 +321,23 @@ module.exports = function(grunt) {
                 files: [
                     // never cache index.html
                     {
-                        expand: true, cwd: 'dist/', src: ['index.html'], 
-                        params : { "CacheControl" : "no-cache"}
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['index.html'],
+                        params : { 'CacheControl' : 'no-cache'}
                     },
                     // cache everything else agressively 
-                    {   
-                        expand: true, cwd: 'dist/', src: ['**','!index.html'],
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['**','!index.html'],
                         params: {
                             //ContentEncoding: 'gzip',
-                            "CacheControl":"public, max-age=31152701",
-                            "Expires":new Date(2023,5,20)
+                            'CacheControl':'public, max-age=31152701',
+                            'Expires':new Date(2023,5,20)
                         }
                     }
-                ]         
+                ]
             }
         }
     });
@@ -352,8 +362,8 @@ module.exports = function(grunt) {
 
     // called after deployment prompt to check if the passphrase is right
     grunt.registerTask('checkdeploy', 'Check passphrase', function(){
-        var passphrase = grunt.config("deploymentPassphrase");
-        var targetPhrase = grunt.config("settings").deploymentPassphrase; 
+        var passphrase = grunt.config('deploymentPassphrase');
+        var targetPhrase = grunt.config('settings').deploymentPassphrase;
 
         if(passphrase !== targetPhrase){
             grunt.fatal('Aborted because you said so');
@@ -366,7 +376,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
         'jshint',
         'karma',
-        'compass', 
+        'compass',
         'connect:server',
         'watch'
     ]);
