@@ -15,7 +15,6 @@
     "grunt-usemin-baked": "~0.1.10",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-copy": "~0.4.1",
-    "connect-modrewrite": "~0.5.6",
     "grunt-rev": "~0.1.0",
     "karma": "~0.10.2",
     "grunt-karma": "~0.6.2",
