@@ -63,6 +63,22 @@ Once your awesome app is fully tested and good to go, Baker helps you get it rea
 grunt build
 ```
 
+###AWS deploy
+{
+	"Version": "2008-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowPublicRead",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "*"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::openmic.io/*"
+		}
+	]
+}
+
 ===
 
 Happy baking!

@@ -21,7 +21,8 @@ module.exports = function(grunt) {
             tempDirectory : 'temp',
             devSettingsModule : 'settings/settings.js',
             stagingSettingsModule : 'settings/stage.js',
-            productionSettingsModule : 'settings/prod.js'
+            productionSettingsModule : 'settings/prod.js',
+            deploymentPassphrase : 'Hello world'
         },
 
         clean: {
@@ -253,6 +254,81 @@ module.exports = function(grunt) {
                     stderr: true
                 }
             }
+        },
+
+        prompt: {
+            // double check before deploying things to production
+            deploy: {
+              options: {
+                questions: [
+                  {
+                    config: 'deploymentPassphrase', 
+                    type: 'input',
+                    message: 'You are about to deploy your app to production, broski. If you are sure, type "<%= settings.deploymentPassphrase %>"'
+                  }
+                ]
+              }
+            }
+        },
+
+        aws: grunt.file.readJSON('aws.json'),
+
+        aws_s3: {
+            options: {
+                accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
+                secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
+                region: 'us-east-1',
+                uploadConcurrency: 5, // 5 simultaneous uploads
+                downloadConcurrency: 5 // 5 simultaneous downloads
+            },
+
+            // stage to http://openmike.s3-website-us-east-1.amazonaws.com/
+            staging: {
+                options: {
+                    bucket: '<%= aws.stagingBucket %>',
+                    differential: true // Only uploads the files that have changed
+                },
+                files: [
+                    // never cache index.html
+                    {
+                        expand: true, cwd: 'dist/', src: ['index.html'], 
+                        params : { "CacheControl" : "no-cache"}
+                    },
+                    // cache everything else agressively 
+                    {   
+                        expand: true, cwd: 'dist/', src: ['**','!index.html'],
+                        params: {
+                            //ContentEncoding: 'gzip',
+                            "CacheControl":"public, max-age=31152701",
+                            "Expires":new Date(2023,5,20)
+                        }
+                    }
+                ]         
+            },
+
+            // production deploy to http://openmic.io.s3-website-us-east-1.amazonaws.com/
+            production: {
+                options: {
+                    bucket: '<%= aws.productionBucket %>',
+                    differential: true // Only uploads the files that have changed
+                },
+                files: [
+                    // never cache index.html
+                    {
+                        expand: true, cwd: 'dist/', src: ['index.html'], 
+                        params : { "CacheControl" : "no-cache"}
+                    },
+                    // cache everything else agressively 
+                    {   
+                        expand: true, cwd: 'dist/', src: ['**','!index.html'],
+                        params: {
+                            //ContentEncoding: 'gzip',
+                            "CacheControl":"public, max-age=31152701",
+                            "Expires":new Date(2023,5,20)
+                        }
+                    }
+                ]         
+            }
         }
     });
 
@@ -270,8 +346,19 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-aws-s3');
+    grunt.loadNpmTasks('grunt-prompt');
 
 
+    // called after deployment prompt to check if the passphrase is right
+    grunt.registerTask('checkdeploy', 'Check passphrase', function(){
+        var passphrase = grunt.config("deploymentPassphrase");
+        var targetPhrase = grunt.config("settings").deploymentPassphrase; 
+
+        if(passphrase !== targetPhrase){
+            grunt.fatal('Aborted because you said so');
+        }
+    });
 
     grunt.registerTask('init', ['shell:bower']);
     grunt.registerTask('test', ['jshint','karma']);
@@ -307,5 +394,13 @@ module.exports = function(grunt) {
         'rev',
         'usemin',
         'clean:temp'
+    ]);
+
+    grunt.registerTask('stage',[
+        'staging-build', 'aws_s3:staging'
+    ]);
+
+    grunt.registerTask('deploy',[
+        'prompt:deploy', 'checkdeploy', 'production-build', 'aws_s3:production'
     ]);
 };
