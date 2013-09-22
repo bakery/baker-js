@@ -6,3 +6,4 @@ dist
 node_modules
 test/scripts
 app/scripts/vendor
+aws.json
