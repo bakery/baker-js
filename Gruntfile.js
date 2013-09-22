@@ -1,5 +1,4 @@
 var path = require('path');
-var modRewrite = require('connect-modrewrite');
 
 var folderMount = function folderMount(connect, point) {
     'use strict';
@@ -207,7 +206,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('init', ['shell:bower']);
     grunt.registerTask('default', ['jshint','compass', 'connect:server', 'watch']);
-    grunt.registerTask('test', ['jshint','karma','watch']);
+    grunt.registerTask('test', ['jshint','karma']);
 
     grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
 
