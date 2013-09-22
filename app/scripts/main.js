@@ -11,7 +11,6 @@ function testing(){
     return typeof window.__karma__ !== 'undefined';
 }
 
-
 require.config({
     baseUrl : 'scripts/',
  
@@ -31,15 +30,18 @@ require.config({
         text : 'vendor/requirejs-text/text',
         json : 'vendor/json2/json2',
         handlebars : 'vendor/handlebars/handlebars',
-        templates: '../templates'
+        templates: '../templates',
+        'base.settings' : 'settings/base',
+        settings : 'settings/settings'
     }
 });
 
 if (!testing()){
-    require(['jquery','app'], function($,Application) {
+    require(['jquery','app','settings'], function($,Application,settings) {
         'use strict';
 
         $(function(){
+            console.log("settings", settings.exampleString);
             Application.start();
         });
     });

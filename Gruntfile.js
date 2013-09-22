@@ -17,18 +17,86 @@ module.exports = function(grunt) {
         settings : {
             appDirectory : 'app',
             testDirectory : 'test',
-            distDirectory : 'dist'
+            distDirectory : 'dist',
+            tempDirectory : 'temp',
+            devSettingsModule : 'settings/settings.js',
+            stagingSettingsModule : 'settings/stage.js',
+            productionSettingsModule : 'settings/prod.js'
         },
 
         clean: {
-            dist: ['<%= settings.distDirectory %>']
+            dist: ['<%= settings.distDirectory %>'],
+            temp: ['<%= settings.tempDirectory %>']
         },
 
         copy: {
+            /*
+                on prebuild:
+                    - copy index.html to the dist directory
+                    - copy images, fonts to the dist directory 
+                    - copy all the scripts to the temp directory, skip settings files
+            */
             prebuild: {
                 files: [
-                    {expand: true, cwd: '<%= settings.appDirectory %>', src: ['index.html'], dest: '<%= settings.distDirectory %>'}
+                    {
+                        expand: true, 
+                        cwd: '<%= settings.appDirectory %>', 
+                        src: ['index.html'], 
+                        dest: '<%= settings.distDirectory %>'
+                    },
+
+                    {
+                        expand: true, 
+                        cwd: '<%= settings.appDirectory %>/images', 
+                        src: ['**/**'], 
+                        dest: '<%= settings.distDirectory %>/images'
+                    },
+
+                    {
+                        expand: true, 
+                        cwd: '<%= settings.appDirectory %>/fonts', 
+                        src: ['**/**'], 
+                        dest: '<%= settings.distDirectory %>/fonts'
+                    },
+                    
+                    {
+                        expand: true, 
+                        cwd: '<%= settings.appDirectory %>/scripts', 
+                        src: [
+                            '**',
+                            '!<%= settings.stagingSettingsModule %>',
+                            '!<%= settings.productionSettingsModule %>',
+                            '!<%= settings.devSettingsModule %>'
+                        ], 
+                        dest: '<%= settings.tempDirectory %>/scripts'
+                    }
                 ]
+            },
+
+            /*
+                copy production settings file to the temp directory and rename it to 'settings.js'
+            */
+
+            prodPrebuild: {
+                files: [       
+                    { 
+                        src: '<%= settings.appDirectory %>/scripts/<%= settings.productionSettingsModule %>', 
+                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'  
+                    }
+                ]  
+            },
+
+            /*
+                copy staging settings file to the temp directory and rename it to 'settings.js'
+            */
+
+            stagePrebuild: {
+                files: [       
+                    { 
+                        src: '<%= settings.appDirectory %>/scripts/<%= settings.stagingSettingsModule %>', 
+                        dest: '<%= settings.tempDirectory %>/scripts/settings/settings.js'  
+                    }
+                ]  
             }
         },
 
@@ -73,8 +141,8 @@ module.exports = function(grunt) {
                 options: {
                     name: 'vendor/almond/almond',
                     include: ['main'],
-                    baseUrl: '<%= settings.appDirectory %>/scripts',
-                    mainConfigFile: '<%= settings.appDirectory %>/scripts/main.js'
+                    baseUrl: "<%= settings.tempDirectory %>/scripts",
+                    mainConfigFile: "<%= settings.tempDirectory %>/scripts/main.js"
                 }
             }
         },
@@ -116,7 +184,7 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 9001,
-                    base:'<%= settings.appDirectory %>/',
+                    base:'<%= settings.appDirectory %>',
                     middleware: function(connect, options) {
                         return [
                             require('connect-livereload')(),
@@ -205,9 +273,40 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('init', ['shell:bower']);
-    grunt.registerTask('default', ['jshint','compass', 'connect:server', 'watch']);
+    
+    grunt.registerTask('default', [
+        'jshint',
+        'compass', 
+        'connect:server',
+        'watch'
+    ]);
+
+
     grunt.registerTask('test', ['jshint','karma']);
 
-    grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
+    grunt.registerTask('build',[
+        'clean:temp',
+        'clean:dist',
+        'copy:prebuild',
+        'copy:prodPrebuild',
+        'useminPrepare',
+        'requirejs',
+        'compass:dist',
+        'rev',
+        'usemin',
+        'clean:temp'
+    ]);
 
+    grunt.registerTask('stage',[
+        'clean:temp',
+        'clean:dist',
+        'copy:prebuild',
+        'copy:stagePrebuild',
+        'useminPrepare',
+        'requirejs',
+        'compass:dist',
+        'rev',
+        'usemin',
+        'clean:temp'
+    ]);
 };
