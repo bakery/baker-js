@@ -44,6 +44,7 @@ if (!testing()){
         });
     });
 } else {
+
     var tests = [];
     for (var file in window.__karma__.files) {
         if (/specs\/.*\.js$/.test(file)) {
@@ -52,10 +53,13 @@ if (!testing()){
     }
 
     require.config({
+        // Karma serves files under /base, which is the basePath from your config file
         baseUrl : '/base/app/scripts',
-        // ask Require.js to load these files (all our tests)
-        deps : tests,
-        // start test run, once Require.js is done
-        callback : window.__karma__.start
+        
+        // dynamically load all test files
+        deps: tests,
+
+        // we have to kick of jasmine, as it is asynchronous
+        callback: window.__karma__.start
     });
 }
