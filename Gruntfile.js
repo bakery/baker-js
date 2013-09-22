@@ -272,8 +272,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
 
+
     grunt.registerTask('init', ['shell:bower']);
-    
+    grunt.registerTask('test', ['jshint','karma']);
+
     grunt.registerTask('default', [
         'jshint',
         'compass', 
@@ -281,10 +283,7 @@ module.exports = function(grunt) {
         'watch'
     ]);
 
-
-    grunt.registerTask('test', ['jshint','karma']);
-
-    grunt.registerTask('build',[
+    grunt.registerTask('production-build',[
         'clean:temp',
         'clean:dist',
         'copy:prebuild',
@@ -297,7 +296,7 @@ module.exports = function(grunt) {
         'clean:temp'
     ]);
 
-    grunt.registerTask('stage',[
+    grunt.registerTask('staging-build',[
         'clean:temp',
         'clean:dist',
         'copy:prebuild',
