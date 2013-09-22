@@ -365,12 +365,14 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', [
         'jshint',
+        'karma',
         'compass', 
         'connect:server',
         'watch'
     ]);
 
     grunt.registerTask('production-build',[
+        'karma',
         'clean:temp',
         'clean:dist',
         'copy:prebuild',
@@ -384,6 +386,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('staging-build',[
+        'karma',
         'clean:temp',
         'clean:dist',
         'copy:prebuild',
