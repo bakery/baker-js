@@ -25,4 +25,12 @@ define(['jquery', 'underscore', 'backbone', 'app'], function($, _, Backbone, App
 
     });
 
+    describe('something faulty', function () {
+
+        it('makes no sense', function (done) {
+            expect(4).toEqual(3);
+        });
+        
+    });
+
 });
