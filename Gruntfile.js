@@ -29,7 +29,6 @@ module.exports = function(grunt) {
             prebuild: {
                 files: [
                     {expand: true, cwd: '<%= settings.appDirectory %>', src: ['index.html'], dest: '<%= settings.distDirectory %>'}
-                    //{expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'} // flattens results to a single level
                 ]
             }
         },
@@ -121,41 +120,42 @@ module.exports = function(grunt) {
                     base:'<%= settings.appDirectory %>/',
                     middleware: function(connect, options) {
                         return [
-                            modRewrite([
-                                '^/test /index.html'
-                            ]),
+                            require('connect-livereload')(),
                             folderMount(connect, options.base)
                         ];
-                    }
-                }
-            },
-
-            test: {
-                options: {
-                    port: 9001,
-                    base:'test/',
-                    middleware: function(connect, options) {
-                        return [folderMount(connect, options.base)];
                     }
                 }
             }
         },
 
         watch: {
-            stuff: {
-                files: [
+
+            options: {
+                livereload: true
+            },
+            
+            js : {
+                files : [
                     '<%= settings.appDirectory %>/scripts/**/*.js',
                     '!<%= settings.appDirectory %>/scripts/vendor/**/*.js',
-                    '<%= settings.testDirectory %>/specs/**/*.js',
-                    '<%= settings.appDirectory %>/styles/*.scss',
-                    '<%= settings.appDirectory %>/**/*.html',
-                    '<%= settings.testDirectory %>/**/*.html'
+                    '<%= settings.testDirectory %>/specs/**/*.js'
                 ],
-                tasks : 'empty',
-                options: {
-                    spawn: false,
-                    livereload: true
-                }
+                tasks : 'jshint'
+            },
+
+            sass : {
+                files : [
+                    '<%= settings.appDirectory %>/styles/*.scss'
+                ],
+                tasks : 'compass:dev'
+            },
+
+            html : {
+                files : [
+                    '<%= settings.appDirectory %>/**/*.html',
+                    '!<%= settings.appDirectory %>/scripts/vendor/**/*.html',
+                    '<%= settings.testDirectory %>/**/*.html'
+                ]
             }
         },
 
@@ -190,25 +190,12 @@ module.exports = function(grunt) {
     });
 
 
-    grunt.event.on('watch', function(action, filepath) {
-        if(filepath.match(/\.js$/)){
-            grunt.task.run('jshint');
-        } else if(filepath.match(/\.scss$/)){
-            grunt.task.run('compass:dev');
-        }
-    });
-
-    grunt.registerTask('empty', 'An empty task that does nothing', function() {
-    });
-
-
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-livereload');
     grunt.loadNpmTasks('grunt-usemin-baked');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -217,9 +204,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
+
     grunt.registerTask('init', ['shell:bower']);
-    grunt.registerTask('default', ['jshint','compass', 'connect:server', 'watch:stuff']);
-    grunt.registerTask('test', ['jshint','karma','watch:stuff']);
+    grunt.registerTask('default', ['jshint','compass', 'connect:server', 'watch']);
+    grunt.registerTask('test', ['jshint','karma','watch']);
 
     grunt.registerTask('build',['clean:dist','copy:prebuild','useminPrepare','requirejs','compass:dist','rev','usemin']);
 
