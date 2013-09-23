@@ -50,6 +50,7 @@ Your aws.json file should have the following content
 {
 	"AWSAccessKeyId": "YOUR-AWS-ACCESS-KEY",
 	"AWSSecretKey": "YOUR-AWS-SECRET-KEY",
+	"AWSRegion" : "AWS-REGION-WHERE-YOUR-BUCKET-IS",
 	"stagingBucket": "NAME-OF-YOUR-STAGING-BUCKET",
 	"productionBucket": "NAME-OF-YOUR-PRODUCTION-BUCKET"
 }

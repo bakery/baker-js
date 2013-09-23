@@ -280,7 +280,7 @@ module.exports = function(grunt) {
             options: {
                 accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
                 secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
-                region: 'us-east-1',
+                region: '<%= aws.AWSRegion %>',
                 uploadConcurrency: 5, // 5 simultaneous uploads
                 downloadConcurrency: 5 // 5 simultaneous downloads
             },
