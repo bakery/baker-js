@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Baker by thebakeryio</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Baker</h1>
+        <p>Baker is Yeoman's young lazy brother</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/thebakeryio/baker" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/thebakeryio/baker/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/thebakeryio/baker/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="tasty-web-apps-with-the-baker" class="anchor" href="#tasty-web-apps-with-the-baker"><span class="octicon octicon-link"></span></a>Tasty web Apps with the Baker</h1>
+
+<p>Baker is an opinionated web application metaframework that helps you build great web applications. Baker is based on <a href="http://gruntjs.com/">Grunt.js</a>, <a href="http://backbonejs.org/">Backbone.js</a> and <a href="http://marionettejs.com/">Marionette</a>.   </p>
+
+<p>Baker is made and heavily used by people from <a href="http://thebakery.io">The Bakery</a> </p>
+
+<h2>
+<a name="a-few-things-baker-does-for-you" class="anchor" href="#a-few-things-baker-does-for-you"><span class="octicon octicon-link"></span></a>A few things Baker does for you</h2>
+
+<ul>
+<li>keeps your javascript neat and sane with <a href="http://www.jshint.com/">jshint</a>
+</li>
+<li>turns your SASS into CSS </li>
+<li>gives you js modular goodness with <a href="http://requirejs.org/">require.js</a> </li>
+<li>tests your application with <a href="http://karma-runner.github.io/0.10/index.html">karma</a>
+</li>
+<li>manages third party dependencies with <a href="http://bower.io/">bower</a>
+</li>
+<li>automatically reloads your browser when your code changes</li>
+<li>deploys your application straight to Amazon S3 </li>
+<li>manages development, staging and production settings</li>
+</ul><h3>
+<a name="bootstrap-your-project" class="anchor" href="#bootstrap-your-project"><span class="octicon octicon-link"></span></a>Bootstrap your project</h3>
+
+<ul>
+<li>Get <a href="http://gruntjs.com/">Grunt.js 0.4+</a> and <a href="http://bower.io/">Bower</a>
+</li>
+</ul><pre><code>npm install -g grunt-cli bower 
+</code></pre>
+
+<ul>
+<li><p>Grab the latest baker release <a href="https://github.com/thebakeryio/baker/releases/tag/1.0.0">here</a></p></li>
+<li><p>Install development dependencies for the Baker, do the following</p></li>
+</ul><pre><code>npm install 
+</code></pre>
+
+<ul>
+<li>Ask baker to get all third party libraries</li>
+</ul><pre><code>grunt init
+</code></pre>
+
+<ul>
+<li>Provide your AWS credentials</li>
+</ul><pre><code>touch aws.json
+</code></pre>
+
+<p>Your aws.json file should have the following content</p>
+
+<pre><code>{
+    "AWSAccessKeyId": "YOUR-AWS-ACCESS-KEY",
+    "AWSSecretKey": "YOUR-AWS-SECRET-KEY",
+    "stagingBucket": "NAME-OF-YOUR-STAGING-BUCKET",
+    "productionBucket": "NAME-OF-YOUR-PRODUCTION-BUCKET"
+}
+</code></pre>
+
+<h3>
+<a name="run-the-app-httplocalhost9001" class="anchor" href="#run-the-app-httplocalhost9001"><span class="octicon octicon-link"></span></a>Run the app (http://localhost:9001)</h3>
+
+<pre><code>grunt 
+</code></pre>
+
+<h3>
+<a name="manage-settings" class="anchor" href="#manage-settings"><span class="octicon octicon-link"></span></a>Manage settings</h3>
+
+<p>app/scripts/settings contains a collection of settings modules used in your application</p>
+
+<pre><code>app/scripts/settings/base.js - common settings reused in all the environments
+app/scripts/settings/settings.js - local development settings
+app/scripts/settings/stage.js - staging settings
+app/scripts/settings/prod.js - production settings
+</code></pre>
+
+<h3>
+<a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h3>
+
+<pre><code>grunt test
+</code></pre>
+
+<h3>
+<a name="build" class="anchor" href="#build"><span class="octicon octicon-link"></span></a>Build</h3>
+
+<p>Baker supports 2 types of builds: staging and production</p>
+
+<pre><code>grunt staging-build
+grunt production-build
+</code></pre>
+
+<p>after successful build <code>dist</code> folder will contain your application </p>
+
+<h3>
+<a name="s3-deploy" class="anchor" href="#s3-deploy"><span class="octicon octicon-link"></span></a>S3 deploy</h3>
+
+<p>Amazon S3 is a great place to keep your web application. Refer to this <a href="http://chadthompson.me/2013/05/06/static-web-hosting-with-amazon-s3/">excellent article</a> for more details. We also recommend you set a policy on your static hosting bucket to keep all your static content publicly available automagically  </p>
+
+<pre><code>{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::NAME-OF-YOUR-BUCKET/*"
+        }
+    ]
+}
+</code></pre>
+
+<p>You can deploy both staging and production versions of your app using Baker</p>
+
+<pre><code>grunt stage
+grunt deploy
+</code></pre>
+
+<h2>
+<a name="problemsquestionssuggestions" class="anchor" href="#problemsquestionssuggestions"><span class="octicon octicon-link"></span></a>Problems/Questions/Suggestions</h2>
+
+<p><a href="mailto:hi@thebakery.io">Say hi</a></p>
+
+<h1></h1>
+
+<p>Happy baking!</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/thebakeryio">thebakeryio</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
