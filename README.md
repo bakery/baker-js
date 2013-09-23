@@ -1,5 +1,4 @@
 #Tasty web Apps with the Baker
-===
 
 Baker is an opinionated web application metaframework that helps you build great web applications. Baker is based on [Grunt.js](http://gruntjs.com/), [Backbone.js](http://backbonejs.org/) and [Marionette](http://marionettejs.com/).   
 
