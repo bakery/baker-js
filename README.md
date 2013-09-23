@@ -23,7 +23,7 @@ Baker is made and heavily used by people from [The Bakery](http://thebakery.io)
 npm install -g grunt-cli bower 
 ```
 
-- Grab the latest baker release [here](https://github.com/thebakeryio/baker)
+- Grab the latest baker release [here](https://github.com/thebakeryio/baker/releases/tag/1.0.0)
 
 - Install development dependencies for the Baker, do the following
 
