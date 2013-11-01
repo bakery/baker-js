@@ -1,17 +1,11 @@
-define(['marionette','views/notification.list','tools/marionette.override'],function(Marionette, NotificationList){
+define(['marionette','tools/marionette.override'],function(Marionette){
 
     'use strict';
 
     var application = new Marionette.Application();
 
-    application.addRegions({
-        notificationContainer: '#notifications',
-    });
-
     application.on('initialize:after', function() {
-        
-        application.notificationContainer.show(new NotificationList()); 
-
+        alert('baker is in the house');
     });
 
     return application;
