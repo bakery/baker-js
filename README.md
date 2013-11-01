@@ -31,13 +31,6 @@ npm install -g grunt-cli bower
 npm install 
 ```
 
-- Ask baker to get all third party libraries
-
-
-```
-grunt init
-```  
-
 - Provide your AWS credentials
 
 ```
@@ -55,6 +48,13 @@ Your aws.json file should have the following content
 	"productionBucket": "NAME-OF-YOUR-PRODUCTION-BUCKET"
 }
 ```
+
+- Ask baker to get all third party libraries
+
+
+```
+grunt init
+```  
 
 ###Run the app (http://localhost:9001)
 
