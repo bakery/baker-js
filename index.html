@@ -71,14 +71,9 @@
 </code></pre>
 
 <ul>
-<li><p>Grab the latest baker release <a href="https://github.com/thebakeryio/baker/releases/tag/1.0.0">here</a></p></li>
+<li><p>Grab the latest baker release <a href="https://github.com/thebakeryio/baker/releases/tag/v1.0.1">here</a></p></li>
 <li><p>Install development dependencies for the Baker, do the following</p></li>
 </ul><pre><code>npm install 
-</code></pre>
-
-<ul>
-<li>Ask baker to get all third party libraries</li>
-</ul><pre><code>grunt init
 </code></pre>
 
 <ul>
@@ -91,9 +86,15 @@
 <pre><code>{
     "AWSAccessKeyId": "YOUR-AWS-ACCESS-KEY",
     "AWSSecretKey": "YOUR-AWS-SECRET-KEY",
+    "AWSRegion" : "AWS-REGION-WHERE-YOUR-BUCKET-IS",
     "stagingBucket": "NAME-OF-YOUR-STAGING-BUCKET",
     "productionBucket": "NAME-OF-YOUR-PRODUCTION-BUCKET"
 }
+</code></pre>
+
+<ul>
+<li>Ask baker to get all third party libraries</li>
+</ul><pre><code>grunt init
 </code></pre>
 
 <h3>
