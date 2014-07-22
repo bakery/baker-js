@@ -5,15 +5,15 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "almond": "~0.2.5",
-    "backbone": "~1.0.0",
+    "almond": "~0.2.9",
+    "backbone": "~1.1.2",
     "handlebars": "~1.0",
-    "jquery": "~1.8.0",
+    "jquery": "~1.9.0",
     "json2": "",
-    "requirejs": "~2.0.5",
+    "requirejs": "~2.1.14",
     "requirejs-text": "~2.0.3",
-    "underscore": "1.5.1",
-    "backbone.marionette": "~1.1.0",
-    "postal.js": "~0.8.4"
+    "underscore": "1.6.0",
+    "backbone.marionette": "~1.8.0",
+    "postal.js": "~0.10.1"
   }
 }
